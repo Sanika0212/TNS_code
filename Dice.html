@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Game</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            background-color: #282c36;
+            color: white;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .dice-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .dice {
+            font-size: 100px;
+            transition: transform 0.3s;
+        }
+        .dice:hover {
+            transform: scale(1.1);
+        }
+        .winner {
+            font-size: 28px;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #FFD700;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #ff6347;
+        }
+        .footer {
+            margin-top: 50px;
+            font-size: 16px;
+            color: lightgray;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎲 Dice Game 🎲</h1>
+        <div class="dice-container">
+            <span class="dice" id="player1">🎲</span>
+            <span class="dice" id="player2">🎲</span>
+            <span class="dice" id="player3">🎲</span>
+            <span class="dice" id="player4">🎲</span>
+        </div>
+        <div class="winner" id="result">Player 1, roll the dice!</div>
+        <button onclick="rollDice()">Roll Dice</button>
+    </div>
+    <div class="footer">Pranav Surve T090801020</div>
+
+    <script>
+        let currentPlayer = 1;
+        let scores = [0, 0, 0, 0];
+        let diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+
+        function rollDice() {
+            if (currentPlayer <= 4) {
+                let roll = Math.floor(Math.random() * 6);
+                document.getElementById("player" + currentPlayer).textContent = diceFaces[roll];
+                scores[currentPlayer - 1] = roll;
+                
+                if (currentPlayer === 4) {
+                    determineWinner();
+                } else {
+                    currentPlayer++;
+                    document.getElementById("result").textContent = "Player " + currentPlayer + ", roll the dice!";
+                }
+            }
+        }
+
+        function determineWinner() {
+            let maxScore = Math.max(...scores);
+            let winners = scores.map((score, index) => score === maxScore ? "Player " + (index + 1) : null).filter(Boolean);
+            
+            document.getElementById("result").textContent = winners.length > 1 ? "It's a Draw!" : winners[0] + " Wins!";
+            currentPlayer = 1;
+            scores = [0, 0, 0, 0];
+        }
+    </script>
+</body>
+</html>
